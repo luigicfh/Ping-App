@@ -16,7 +16,7 @@ def check_ping(hostname):
 
 @app.route('/ping')
 def hello():
-    ping_test = check_ping("www.google.com")
+    ping_test = check_ping("10.30.0.3")
     return f"<h1>{ping_test}<h1/>"
 
 
