@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import os
 
 
@@ -14,10 +14,24 @@ def check_ping(hostname):
     return pingstatus
 
 
-@app.route('/ping')
+@app.route('/ping', methods=['GET', 'POST'])
 def hello():
-    ping_test = check_ping("10.30.0.3")
-    return f"<h1>{ping_test}<h1/>"
+    if request.method == "GET":
+        return """
+            <p>Enter host IP or domain:<p/>
+            <form action="/ping" method="POST">
+                <input type="text" name="host"/>
+                <input type="submit" value="Submit"/>
+            <form />
+        """
+    elif request.method == "POST":
+        ping_test = check_ping(request.form['host'])
+        return f"""
+            <p>{ping_test}<p/>
+            <a href="/ping">Try another host<a/>
+        """
+    else:
+        return "<p>404 not found.<p/>"
 
 
 if __name__ == '__main__':
