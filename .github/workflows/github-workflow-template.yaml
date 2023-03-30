@@ -1,0 +1,53 @@
+name: workflow-template
+
+# Enable Buildkit and let compose use it to speed up image building
+env:
+  GCR_REGISTRY: gcr.io
+  GCP_REGION: us-east1
+  GCP_PROJECT: laboratorio-ucloud-01
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push_to_gcr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Authenticate to Google Cloud.
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: Build and push the image to GCR.
+        uses: RafikFarhad/push-to-gcr-github-action@v5-beta
+        with:
+          registry: ${{ env.GCP_REGISTRY }}
+          project_id: ${{ env.GCP_PROJECT }}
+          image_name: ping-app
+          image_tag: ${{ github.sha }}
+          dockerfile: ./Dockerfile
+          context: ./
+          target: build
+
+  test_images_from_gcr:
+    name: Test images from GCR.
+    needs: 
+      - build_and_push_to_gcr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      - name: Testing the image
+        run: |
+          cat ${GOOGLE_APPLICATION_CREDENTIALS} | docker login -u _json_key --password-stdin gcr.io
+          docker run gcr.io/pro-chesta/ping-app:${{ github.sha }}
+          export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
+          python3 tests.py
