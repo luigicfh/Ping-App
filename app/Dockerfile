@@ -1,4 +1,4 @@
-FROM python:3.10-slim as sandbox
+FROM python:3.10-slim AS sandbox
 
 ENV PYTHONUNBUFFERED True
 
