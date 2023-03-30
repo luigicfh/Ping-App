@@ -34,7 +34,7 @@ jobs:
           image_tag: ${{ github.sha }}
           dockerfile: ./app/Dockerfile
           context: ./app
-          target: build
+          target: environment
 
   test_images_from_gcr:
     name: Test images from GCR.
