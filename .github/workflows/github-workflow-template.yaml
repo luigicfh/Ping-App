@@ -28,10 +28,10 @@ jobs:
       - name: Build and push the image to GCR.
         uses: RafikFarhad/push-to-gcr-github-action@v5-beta
         with:
-          registry: ${{ env.GCP_REGISTRY }}
+          registry: gcr.io
           project_id: ${{ env.GCP_PROJECT }}
           image_name: ping-app
-          image_tag: test-${{ github.sha }}, ${{ github.sha }}
+          image_tag: latest, ${{ github.sha }}
           dockerfile: ./app/Dockerfile
           context: ./app
           target: environment
