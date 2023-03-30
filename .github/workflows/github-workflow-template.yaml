@@ -31,7 +31,7 @@ jobs:
           registry: ${{ env.GCP_REGISTRY }}
           project_id: ${{ env.GCP_PROJECT }}
           image_name: ping-app
-          image_tag: ${{ github.sha }}
+          image_tag: test-${{ github.sha }}, ${{ github.sha }}
           dockerfile: ./app/Dockerfile
           context: ./app
           target: environment
