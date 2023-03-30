@@ -34,8 +34,8 @@ jobs:
           project_id: ${{ env.GCP_PROJECT }}
           image_name: ping-app
           image_tag: ${{ github.sha }}
-          dockerfile: Dockerfile
-          context: .
+          dockerfile: /app/Dockerfile
+          context: ./app
           target: build
 
   test_images_from_gcr:
