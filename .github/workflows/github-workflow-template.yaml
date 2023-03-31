@@ -51,13 +51,13 @@ jobs:
       - name: Login
         run: cat ${GOOGLE_APPLICATION_CREDENTIALS} | docker login -u _json_key --password-stdin gcr.io
       - name: Run Docker
-        run: docker run -d gcr.io/${{ env.GCP_PROJECT }}/ping-app:latest
+        run: echo "CONTAINER=docker run -d gcr.io/${{ env.GCP_PROJECT }}/ping-app:latest" >> $GITHUB_ENV
       - name: Export response
-        run: export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
+        run: echo "RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Run bash script
         run: |
           chmod +x ./tests/test.sh
           ./tests/test.sh
       - name: Stop Docker
-        run: docker stop ping-app
+        run: docker stop ${{ env.CONTAINER }}
