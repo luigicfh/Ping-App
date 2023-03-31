@@ -15,6 +15,7 @@ on:
 
 jobs:
   build_and_push_to_gcr:
+    name: Build and push to GCR.
     runs-on: ubuntu-latest
 
     steps:
