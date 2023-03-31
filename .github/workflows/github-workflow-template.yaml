@@ -54,5 +54,6 @@ jobs:
           docker run -d gcr.io/${{ env.GCP_PROJECT }}/ping-app:latest
           export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
           ls
-          bash test.sh
+          echo ${{ github.action_path }}
+          bash "${{ github.action_path }}/test.sh"
           docker stop ping-app
