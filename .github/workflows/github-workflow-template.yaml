@@ -55,7 +55,7 @@ jobs:
       - name: Export response
         run: export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
       - name: Echo action path
-        run:  echo ${{ github.action_path }}
+        run:  echo "${{ github.action_path }}"
       - name: Run bash script
         run: bash "${{ github.action_path }}/test.sh"
       - name: Stop Docker
