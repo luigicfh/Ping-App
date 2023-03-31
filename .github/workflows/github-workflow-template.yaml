@@ -53,5 +53,6 @@ jobs:
           cat ${GOOGLE_APPLICATION_CREDENTIALS} | docker login -u _json_key --password-stdin gcr.io
           docker run -d gcr.io/${{ env.GCP_PROJECT }}/ping-app:latest
           export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
+          ls
           bash test.sh
           docker stop ping-app
