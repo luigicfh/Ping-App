@@ -54,6 +54,7 @@ jobs:
         run: docker run -d gcr.io/${{ env.GCP_PROJECT }}/ping-app:latest
       - name: Export response
         run: export RESPONSE=$(curl -i --silent localhost/ping | grep HTTP)
+      - uses: actions/checkout@v2
       - name: Run bash script
         run: |
           chmod +x ./tests/test.sh
