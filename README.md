@@ -1,2 +1,2 @@
-# Simple ping app to test connectivity in K8 Workshop
+# Simple ping app to test connectivity in K8s Workshop
  
